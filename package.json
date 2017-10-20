@@ -1,0 +1,105 @@
+{
+  "name": "asterism-plugin-ipcam",
+  "version": "1.5.0",
+  "description": "An asterism plugin to screen & control ip cameras",
+  "author": "Xavier Gouley <gxapplications@gmail.com>",
+  "contributors": [],
+  "license": "CC-BY-NC-SA-4.0",
+  "scripts": {
+    "dist": "rimraf dist && babel lib --out-dir dist",
+    "wrap:install": "cd ../asterism/ && npm install --no-save file:../asterism-plugin-ipcam",
+    "wrap:clean": "cd ../asterism/ && rimraf node_modules/asterism-plugin-ipcam/dist",
+    "wrap:link": "cd ../asterism/ && ln -s ../../../asterism-plugin-ipcam/dist/ node_modules/asterism-plugin-ipcam/dist",
+    "wrap": "npm run dist && npm run wrap:install && npm run wrap:clean && npm run wrap:link",
+    "start": "cd ../asterism/ && cross-env ASTERISM_PLUGINS=asterism-plugin-ipcam npm start",
+    "start:debug": "cd ../asterism/ && cross-env ASTERISM_PLUGINS=asterism-plugin-ipcam npm run start:debug",
+    "prepublishOnly": "npm run dist",
+    "validate": "npm ls"
+  },
+  "main": "dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gxapplications/asterism-plugin-ipcam"
+  },
+  "bugs": {
+    "url": "https://github.com/gxapplications/asterism-plugin-ipcam/issues"
+  },
+  "homepage": "https://github.com/gxapplications/asterism-plugin-ipcam",
+  "keywords": [
+    "ipcam",
+    "webcam",
+    "mjpeg",
+    "asterism",
+    "domotics"
+  ],
+  "engines": {
+    "node": ">= 8.9.4",
+    "npm": ">= 5.6.0"
+  },
+  "babel": {
+    "presets": [
+      [
+        "env",
+        { "targets": {
+          "chrome": "71"
+        } }
+      ],
+      "react"
+    ],
+    "plugins": ["transform-object-rest-spread"],
+    "env": {
+      "development": {
+        "plugins": [
+          [
+            "css-modules-transform",
+            {
+              "preprocessCss": "../asterism-plugin-ipcam/babel-sass-preprocess.js",
+              "generateScopedName": "[local]",
+              "extractCss": "./dist/styles.css",
+              "extensions": [
+                ".css",
+                ".sass",
+                ".scss"
+              ]
+            }
+          ]
+        ]
+      }
+    }
+  },
+  "dependencies": {
+    "request": "^2.83.0",
+    "request-promise": "^4.2.2",
+    "url": "^0.11.0",
+    "uuid": "3.x"
+  },
+  "devDependencies": {
+    "asterism-plugin-library": ">= 2.0.0",
+    "babel-cli": "6.26.x",
+    "babel-core": "6.26.x",
+    "babel-plugin-css-modules-transform": "1.5.0",
+    "babel-plugin-transform-object-rest-spread": "6.23.x",
+    "babel-preset-env": "1.6.x",
+    "babel-preset-react": "6.24.x",
+    "cross-env": "^5.x",
+    "express": "4.16.x",
+    "node-sass": "4.6.x",
+    "prop-types": "15.6.x",
+    "react": "16.2.x",
+    "react-materialize": "2.4.x",
+    "rimraf": "2.x"
+  },
+  "peerDependencies": {
+    "asterism": ">= 1.0.0",
+    "asterism-plugin-library": ">= 2.0.0",
+    "express": "4.16.x",
+    "prop-types": "15.6.x",
+    "react": "16.2.x",
+    "react-materialize": "2.4.x"
+  },
+  "directories": {
+    "lib": "./lib",
+    "dist": "./dist"
+  },
+  "config": {}
+}

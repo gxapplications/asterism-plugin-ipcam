@@ -1,0 +1,14 @@
+npm-debug.log
+.jshint*
+package-lock.json
+
+/node_modules
+/dist
+
+.idea
+.DS_Store
+*/.DS_Store
+*/*/.DS_Store
+._*
+*/._*
+*/*/._*
