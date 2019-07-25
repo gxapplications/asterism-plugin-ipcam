@@ -189,15 +189,18 @@
 }
 
 #ipcam_settings {
-  overflow: hidden;
-  height: calc(100% - 5px) !important;
-
-  & > .scrollable {
-    height: calc(100% - 2px);
-    overflow-y: auto;
+  & .collection a.collection-item.add.big-avatar i.material-icons {
+    height: 1em;
+    line-height: 1em;
   }
 
-  & > .card-reveal {
-    top: calc(100% + 2px);
+  & .collection a.collection-item.avatar:not(.add) {
+    min-height: inherit;
+  }
+
+  & .collection a.collection-item.avatar i.material-icons {
+    height: 42px;
+    line-height: 42px;
+    font-size: 24px;
   }
 }

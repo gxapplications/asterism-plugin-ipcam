@@ -4,7 +4,7 @@
 import cx from 'classnames'
 import PropTypes from 'prop-types'
 import React from 'react'
-import { Col, Button, Icon, Input, Preloader, Row } from 'react-materialize'
+import { Col, Button, Icon, TextInput, Preloader, Row, Select } from 'react-materialize'
 import UrlParser from 'url'
 import uuid from 'uuid'
 
@@ -33,15 +33,11 @@ class IpCamSettings extends React.Component {
     this.props.serverStorage.getItem('cameras')
     .then((elements) => {
       if (this._mounted) {
-        console.log(`Restoring ${elements.length} items in the IP cam settings collection...`)
+        // console.log(`Restoring ${elements.length} items in the IP cam settings collection...`)
         this.setState({ elements })
       }
     })
-    .catch((error) => {
-      if (error.status === 404 && this._mounted) {
-        this.setState({ elements: [] })
-      }
-    })
+    .catch(console.error)
   }
 
   componentWillUnmount () {
@@ -66,7 +62,7 @@ class IpCamSettings extends React.Component {
 
     return (
       <div id='ipcam_settings' className='card'>
-        <div className='section left-align scrollable'>
+        <div className='section left-align'>
           <h5>IP cameras</h5>
           <p>
             Manage your cameras here.
@@ -80,7 +76,6 @@ class IpCamSettings extends React.Component {
               onClick: this.addElement.bind(this)
             }}
           />
-
         </div>
 
         <div className={cx('card-reveal', theme.backgrounds.body)}>
@@ -88,22 +83,23 @@ class IpCamSettings extends React.Component {
           {currentElement ? (
             <div>
               <Row className='padded card'>
-                <Input s={12} label='URL' ref={(c) => { this._url = c }} defaultValue={currentElement.url} />
-                <Input s={12} m={5} label='Name' ref={(c) => { this._name = c }}
-                  defaultValue={currentElement.name} />
-                <Input s={12} m={7} type='select' label='Camera model' icon='videocam' onChange={this.modelChanged.bind(this)}
-                  defaultValue={currentElement.model} ref={(c) => { this._model = c }}>
+                <br /><br />
+                <TextInput s={12} label='URL' placeholder='Use a full URL' onChange={this.urlChanged.bind(this)} value={currentElement.url} />
+                <br />&nbsp;<br />
+                <TextInput s={12} label='Name' placeholder='Choose a short name' onChange={this.nameChanged.bind(this)}
+                  value={currentElement.name} />
+                <br />&nbsp;<br />
+                <Select s={12} label='Camera model' icon='videocam' onChange={this.modelChanged.bind(this)}
+                  value={currentElement.model}>
                   {models.map((el, idx) => (
-                      <option key={idx} value={el.id} selected={el.id === currentElement.model}>{el.brand} - {el.name}</option>
+                    <option key={idx} value={el.id}>{el.brand} - {el.name}</option>
                   ))}
-                </Input>
+                </Select>
               </Row>
               <Row className='padded card'>
                 <div className='card-content col s12'>Auth. (In clear as '&user=xxx&pwd=xxx')</div>
-                <Input s={12} m={6} label='User' ref={(c) => { this._login = c }}
-                  defaultValue={currentElement.login} />
-                <Input s={12} m={6} type='password' label='Password' ref={(c) => { this._password = c }}
-                  defaultValue={currentElement.password} />
+                <TextInput s={12} m={6} label='User' onChange={this.loginChanged.bind(this)} value={currentElement.login} />
+                <TextInput s={12} m={6} password label='Password' onChange={this.passwordChanged.bind(this)} value={currentElement.password} />
               </Row>
               <Button waves={waves} className={cx('right', theme.actions.primary)} onClick={this.save.bind(this)}>
                 Save
@@ -136,34 +132,51 @@ class IpCamSettings extends React.Component {
     this.setState({ currentElement: element, currentModel: models.find((el) => el.id === element.model) })
   }
 
+  urlChanged (event) {
+    this.setState({ currentElement: { ...this.state.currentElement, url: event.currentTarget.value } })
+  }
+
+  nameChanged (event) {
+    this.setState({ currentElement: { ...this.state.currentElement, name: event.currentTarget.value } })
+  }
+
+  loginChanged (event) {
+    this.setState({ currentElement: { ...this.state.currentElement, login: event.currentTarget.value } })
+  }
+
+  passwordChanged (event) {
+    this.setState({ currentElement: { ...this.state.currentElement, password: event.currentTarget.value } })
+  }
+
   modelChanged (event) {
     const model = models.find((el) => el.id === event.currentTarget.value)
-    this.setState({ currentModel: model })
+
+    this.setState({
+      currentModel: model,
+      currentElement: {
+        ...this.state.currentElement,
+        model: event.currentTarget.value
+      }
+    })
 
     // Fix URL with model suffix
-    if (!this._url.state.value) {
+    if (!this.state.currentElement.url) {
       return
     }
-
-    const parsedUrl = UrlParser.parse(this._url.state.value.replace(/^(?!https?:\/\/)/, 'http://'))
+    const parsedUrl = UrlParser.parse(this.state.currentElement.url.replace(/^(?!https?:\/\/)/, 'http://'))
     if (model && model.urlSuffix && (!parsedUrl.path || parsedUrl.path === '/')) {
-      // FIXME: state will be set correctly, but displayed input is not updated. react-materialize bug?
-      this._url.setState({ value: UrlParser.resolve(UrlParser.format(parsedUrl), model.urlSuffix) })
-      this.setState({ currentElement: { ...this.state.currentElement, url: UrlParser.resolve(UrlParser.format(parsedUrl), model.urlSuffix) } })
+      this.setState({
+        currentElement: {
+          ...this.state.currentElement,
+          url: UrlParser.resolve(UrlParser.format(parsedUrl), model.urlSuffix)
+        }
+      })
     }
   }
 
   save () {
-    const currentElement = {
-      ...this.state.currentElement,
-      name: this._name.state.value,
-      url: this._url.state.value,
-      login: this._login.state.value,
-      password: this._password.state.value,
-      model: this._model.state.value
-    }
-    const elements = this.state.elements.filter((el) => (el.id !== currentElement.id))
-    elements.push(currentElement)
+    const elements = this.state.elements.filter((el) => (el.id !== this.state.currentElement.id))
+    elements.push(this.state.currentElement)
     elements.sort((a, b) => {
       const nA = a.name.toLowerCase()
       const nB = b.name.toLowerCase()
@@ -211,12 +224,7 @@ class IpCamSettings extends React.Component {
         $('#ipcam_settings .card-reveal .card-title').click()
       }
     })
-    .catch((error) => {
-      if (this._mounted) {
-        this.setState({ deleteConfirmation: false })
-      }
-      console.error(error)
-    })
+    .catch(console.error)
   }
 }
 

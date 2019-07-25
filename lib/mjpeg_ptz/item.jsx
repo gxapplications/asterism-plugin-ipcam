@@ -43,14 +43,14 @@ class MotionJpegPtzItem extends Item {
   render () {
     const { mainState, theme, serverStorage } = this.props.context
     const { animationLevel } = mainState()
-    const { title = null, displaySample = false, camera } = this.state.params
+    const { title = null, displaySample = 'off', camera } = this.state.params
     const { url = '', login = '', password = '', elementInvalid, snapshotUrl, slowUrl, cameraName, model } = this.state
 
     // TODO !1: try to support audio flux... on all cameras that have the audio flag
 
     if (elementInvalid || !url) {
       return (
-        <div className={cx('grey lighten-2 fluid', styles.ipCamCentered)}>
+        <div className={cx('ipCamCentered grey lighten-2 fluid', styles.ipCamCentered)}>
           <Icon medium>videocam_off</Icon>
         </div>
       )
@@ -60,8 +60,8 @@ class MotionJpegPtzItem extends Item {
     const controllable = !!model.controls
     const fullUrl = fixUrl(url, login, password, model)
 
-    const clickableItem = displaySample ? (
-      <Button waves={waves} className={cx(styles.ipCam, 'truncate fluid', theme.backgrounds.card)}>
+    const clickableItem = (displaySample === 'on') ? (
+      <Button waves={waves} className={cx(styles.ipCam, 'ipCam truncate fluid', theme.backgrounds.card)}>
         {fullUrl ? (
           <object type='image/jpeg' data={slowUrl || snapshotUrl || fullUrl}>
             <div className='error red-text truncate'>
@@ -76,22 +76,20 @@ class MotionJpegPtzItem extends Item {
         ) : null}
       </Button>
     ) : (
-      <Button waves={waves} className={cx(styles.ipCam, 'truncate fluid', theme.backgrounds.card)}>
+      <Button waves={waves} className={cx(styles.ipCam, 'ipCam truncate fluid', theme.backgrounds.card)}>
         {title || cameraName}
       </Button>
     )
 
     return (
       <Modal header={title || cameraName}
-        modalOptions={{
+        options={{
           inDuration: animationLevel >= 2 ? 300 : 0,
           outDuration: animationLevel >= 2 ? 300 : 0,
-          ready: (modal) => {
-            modal.addClass(styles.ipCamModal)
-            modal.addClass(theme.backgrounds.card)
+          onOpenStart: (modal) => {
             $('.fullUrl', modal).attr('data', fullUrl)
           },
-          complete: () => {
+          onCloseEnd: () => {
             $('.ipCamModal .fullUrl').attr('data', '')
           }
         }}
@@ -124,7 +122,7 @@ class MotionJpegPtzItem extends Item {
       if (model.authentication === 'basic' && element.login && element.password) {
         const location = window.document.location
         this.baseUrl = `${location.protocol}//${location.host}`
-        // FIXME: maybe useful to to url and slowUrl too...
+        // FIXME: maybe useful to do url and slowUrl too...
         snapUrl = `${this.baseUrl}/asterism-plugin-ipcam/snapshot-stream/${camera}`
       }
       this.setState({

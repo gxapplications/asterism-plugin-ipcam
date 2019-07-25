@@ -1,6 +1,6 @@
 {
   "name": "asterism-plugin-ipcam",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "An asterism plugin to screen & control ip cameras",
   "author": "Xavier Gouley <gxapplications@gmail.com>",
   "contributors": [],
@@ -33,20 +33,24 @@
     "domotics"
   ],
   "engines": {
-    "node": ">= 8.9.4",
-    "npm": ">= 5.6.0"
+    "node": ">= 8.11.1",
+    "npm": ">= 6.4.1"
   },
   "babel": {
     "presets": [
       [
         "env",
-        { "targets": {
-          "chrome": "71"
-        } }
+        {
+          "targets": {
+            "chrome": "45"
+          }
+        }
       ],
       "react"
     ],
-    "plugins": ["transform-object-rest-spread"],
+    "plugins": [
+      "transform-object-rest-spread"
+    ],
     "env": {
       "development": {
         "plugins": [
@@ -74,7 +78,7 @@
     "uuid": "3.x"
   },
   "devDependencies": {
-    "asterism-plugin-library": ">= 2.0.0",
+    "asterism-plugin-library": ">= 2.2.0",
     "babel-cli": "6.26.x",
     "babel-core": "6.26.x",
     "babel-plugin-css-modules-transform": "1.5.0",
@@ -86,16 +90,16 @@
     "node-sass": "4.6.x",
     "prop-types": "15.6.x",
     "react": "16.2.x",
-    "react-materialize": "2.4.x",
+    "react-materialize": "3.3.3",
     "rimraf": "2.x"
   },
   "peerDependencies": {
-    "asterism": ">= 1.0.0",
-    "asterism-plugin-library": ">= 2.0.0",
+    "asterism": ">= 1.1.0",
+    "asterism-plugin-library": ">= 2.2.0",
     "express": "4.16.x",
     "prop-types": "15.6.x",
     "react": "16.2.x",
-    "react-materialize": "2.4.x"
+    "react-materialize": "3.3.3"
   },
   "directories": {
     "lib": "./lib",

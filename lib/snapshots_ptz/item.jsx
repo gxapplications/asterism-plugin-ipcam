@@ -42,12 +42,12 @@ class SnapshotsPtzItem extends Item {
   render () {
     const { mainState, theme, serverStorage } = this.props.context
     const { animationLevel } = mainState()
-    const { title = null, displaySample = false, camera } = this.state.params
+    const { title = null, displaySample = 'off', camera } = this.state.params
     const { url = '', login = '', password = '', elementInvalid, snapshotUrl, cameraName, model } = this.state
 
     if (elementInvalid || !url) {
       return (
-        <div className={cx('grey lighten-2 fluid', styles.ipCamCentered)}>
+        <div className={cx('ipCamCentered grey lighten-2 fluid', styles.ipCamCentered)}>
           <Icon medium>videocam_off</Icon>
         </div>
       )
@@ -56,8 +56,8 @@ class SnapshotsPtzItem extends Item {
     const waves = animationLevel >= 2 ? 'light' : null
     const controllable = !!model.controls
 
-    const clickableItem = displaySample ? (
-      <Button waves={waves} className={cx(styles.ipCam, 'truncate fluid', theme.backgrounds.card)}>
+    const clickableItem = (displaySample === 'on') ? (
+      <Button waves={waves} className={cx(styles.ipCam, 'ipCam truncate fluid', theme.backgrounds.card)}>
         {url ? (
           <object type='image/jpeg' data={snapshotUrl}>
             <div className='error red-text truncate'>
@@ -72,20 +72,16 @@ class SnapshotsPtzItem extends Item {
         ) : null}
       </Button>
     ) : (
-      <Button waves={waves} className={cx(styles.ipCam, 'truncate fluid', theme.backgrounds.card)}>
+      <Button waves={waves} className={cx(styles.ipCam, 'ipCam truncate fluid', theme.backgrounds.card)}>
         {title || cameraName}
       </Button>
     )
 
     return (
-      <Modal header={title || cameraName}
-        modalOptions={{
+      <Modal header={title || cameraName} className={cx(styles.ipCamModal, 'ipCamModal', theme.backgrounds.card)}
+        options={{
           inDuration: animationLevel >= 2 ? 300 : 0,
-          outDuration: animationLevel >= 2 ? 300 : 0,
-          ready: (modal) => {
-            modal.addClass(styles.ipCamModal)
-            modal.addClass(theme.backgrounds.card)
-          }
+          outDuration: animationLevel >= 2 ? 300 : 0
         }}
         trigger={clickableItem}>
         {url ? (
