@@ -1,8 +1,8 @@
 {
   "name": "asterism-plugin-ipcam",
-  "version": "1.5.1",
+  "version": "1.6.0",
   "description": "An asterism plugin to screen & control ip cameras",
-  "author": "Xavier Gouley <gxapplications@gmail.com>",
+  "author": "Xavier Gouley <gxapplications@gmail.com> (asterism.tk)",
   "contributors": [],
   "license": "CC-BY-NC-SA-4.0",
   "scripts": {
@@ -33,7 +33,7 @@
     "domotics"
   ],
   "engines": {
-    "node": ">= 8.11.1",
+    "node": "8.13.0 - 8.17.0",
     "npm": ">= 6.4.1"
   },
   "babel": {
@@ -87,7 +87,7 @@
     "babel-preset-react": "6.24.x",
     "cross-env": "^5.x",
     "express": "4.16.x",
-    "node-sass": "4.6.x",
+    "node-sass": "4.13.x",
     "prop-types": "15.6.x",
     "react": "16.2.x",
     "react-materialize": "3.3.3",
