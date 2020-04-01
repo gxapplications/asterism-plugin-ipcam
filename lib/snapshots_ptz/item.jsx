@@ -161,6 +161,18 @@ class SnapshotsPtzItem extends Item {
       this.setState({ elementInvalid: true })
     })
   }
+
+  refresh () {
+    clearInterval(this._refreshTimer)
+    clearInterval(this._refreshTimer2)
+
+    this.fetchData()
+  }
+
+  freeze () {
+    clearInterval(this._refreshTimer)
+    clearInterval(this._refreshTimer2)
+  }
 }
 
 export default SnapshotsPtzItem

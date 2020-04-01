@@ -151,6 +151,18 @@ class MotionJpegPtzItem extends Item {
       this.setState({ elementInvalid: true })
     })
   }
+
+  refresh () {
+    clearInterval(this._refreshTimer)
+    // TODO !1: pause audio too
+
+    this.fetchData()
+  }
+
+  freeze () {
+    clearInterval(this._refreshTimer)
+    // TODO !1: pause audio too
+  }
 }
 
 export default MotionJpegPtzItem

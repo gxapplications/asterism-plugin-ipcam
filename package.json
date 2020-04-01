@@ -1,6 +1,6 @@
 {
   "name": "asterism-plugin-ipcam",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "description": "An asterism plugin to screen & control ip cameras",
   "author": "Xavier Gouley <gxapplications@gmail.com> (asterism.tk)",
   "contributors": [],
@@ -78,7 +78,7 @@
     "uuid": "3.x"
   },
   "devDependencies": {
-    "asterism-plugin-library": ">= 2.2.0",
+    "asterism-plugin-library": ">= 2.3.4",
     "babel-cli": "6.26.x",
     "babel-core": "6.26.x",
     "babel-plugin-css-modules-transform": "1.5.0",
@@ -94,8 +94,8 @@
     "rimraf": "2.x"
   },
   "peerDependencies": {
-    "asterism": ">= 1.1.0",
-    "asterism-plugin-library": ">= 2.2.0",
+    "asterism": ">= 1.3.0",
+    "asterism-plugin-library": ">= 2.3.4",
     "express": "4.16.x",
     "prop-types": "15.6.x",
     "react": "16.2.x",
