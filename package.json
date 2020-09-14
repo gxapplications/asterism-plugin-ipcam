@@ -1,12 +1,12 @@
 {
   "name": "asterism-plugin-ipcam",
-  "version": "1.6.1",
+  "version": "1.7.0",
   "description": "An asterism plugin to screen & control ip cameras",
   "author": "Xavier Gouley <gxapplications@gmail.com> (asterism.tk)",
   "contributors": [],
   "license": "CC-BY-NC-SA-4.0",
   "scripts": {
-    "dist": "rimraf dist && babel lib --out-dir dist",
+    "dist": "rimraf dist && babel lib --no-comments --compact true --out-dir dist",
     "wrap:install": "cd ../asterism/ && npm install --no-save file:../asterism-plugin-ipcam",
     "wrap:clean": "cd ../asterism/ && rimraf node_modules/asterism-plugin-ipcam/dist",
     "wrap:link": "cd ../asterism/ && ln -s ../../../asterism-plugin-ipcam/dist/ node_modules/asterism-plugin-ipcam/dist",
@@ -33,70 +33,35 @@
     "domotics"
   ],
   "engines": {
-    "node": "8.13.0 - 8.17.0",
-    "npm": ">= 6.4.1"
-  },
-  "babel": {
-    "presets": [
-      [
-        "env",
-        {
-          "targets": {
-            "chrome": "45"
-          }
-        }
-      ],
-      "react"
-    ],
-    "plugins": [
-      "transform-object-rest-spread"
-    ],
-    "env": {
-      "development": {
-        "plugins": [
-          [
-            "css-modules-transform",
-            {
-              "preprocessCss": "../asterism-plugin-ipcam/babel-sass-preprocess.js",
-              "generateScopedName": "[local]",
-              "extractCss": "./dist/styles.css",
-              "extensions": [
-                ".css",
-                ".sass",
-                ".scss"
-              ]
-            }
-          ]
-        ]
-      }
-    }
+    "node": ">= 12.12.0",
+    "npm": ">= 6.11.3"
   },
   "dependencies": {
-    "request": "^2.83.0",
-    "request-promise": "^4.2.2",
-    "url": "^0.11.0",
+    "request": "2.88.x",
+    "request-promise": "4.2.x",
+    "url": "0.11.x",
     "uuid": "3.x"
   },
   "devDependencies": {
-    "asterism-plugin-library": ">= 2.3.4",
-    "babel-cli": "6.26.x",
-    "babel-core": "6.26.x",
-    "babel-plugin-css-modules-transform": "1.5.0",
-    "babel-plugin-transform-object-rest-spread": "6.23.x",
-    "babel-preset-env": "1.6.x",
-    "babel-preset-react": "6.24.x",
-    "cross-env": "^5.x",
-    "express": "4.16.x",
-    "node-sass": "4.13.x",
+    "asterism-plugin-library": ">= 2.4.0",
+    "@babel/cli": "7.11.x",
+    "@babel/core": "7.11.x",
+    "babel-eslint": "10.1.x",
+    "babel-plugin-css-modules-transform": "1.6.x",
+    "@babel/preset-env": "7.11.x",
+    "@babel/preset-react": "7.10.x",
+    "cross-env": "7.x",
+    "express": "4.17.x",
+    "node-sass": "4.14.x",
     "prop-types": "15.6.x",
     "react": "16.2.x",
     "react-materialize": "3.3.3",
-    "rimraf": "2.x"
+    "rimraf": "3.x"
   },
   "peerDependencies": {
-    "asterism": ">= 1.3.0",
-    "asterism-plugin-library": ">= 2.3.4",
-    "express": "4.16.x",
+    "asterism": ">= 1.9.0",
+    "asterism-plugin-library": ">= 2.4.0",
+    "express": "4.17.x",
     "prop-types": "15.6.x",
     "react": "16.2.x",
     "react-materialize": "3.3.3"
@@ -104,6 +69,5 @@
   "directories": {
     "lib": "./lib",
     "dist": "./dist"
-  },
-  "config": {}
+  }
 }

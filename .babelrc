@@ -1,0 +1,36 @@
+{
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "targets": {
+          "chrome": "45"
+        }
+      }
+    ],
+    "@babel/preset-react"
+  ],
+  "env": {
+    "development": {
+      "plugins": [
+        [
+          "css-modules-transform",
+          {
+            "preprocessCss": "babel-sass-preprocess.js",
+            "generateScopedName": "[local]",
+            "extractCss": {
+              "dir": "./dist/",
+              "relativeRoot": "./lib/",
+              "filename": "[name].css"
+            },
+            "extensions": [
+              ".css",
+              ".sass",
+              ".scss"
+            ]
+          }
+        ]
+      ]
+    }
+  }
+}
